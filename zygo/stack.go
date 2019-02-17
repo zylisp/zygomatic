@@ -41,7 +41,7 @@ func (s *Stack) SexpString(ps *PrintState) string {
 	return head + " " + str + " )"
 }
 
-// Type() satisfies the Sexp interface, returning the type of the value.
+// Type: Type satisfies the Sexp interface, returning the type of the value.
 func (s *Stack) Type() *RegisteredType {
 	return GoStructRegistry.Lookup("packageScopeStack")
 }
@@ -192,7 +192,7 @@ func (stack *Stack) Show(env *Zlisp, ps *PrintState, label string) (string, erro
 	return s, nil
 }
 
-// set newsize to 0 to truncate everything
+// TruncateToSize: set newsize to 0 to truncate everything
 func (stack *Stack) TruncateToSize(newsize int) {
 	el := make([]StackElem, newsize)
 	copy(el, stack.elements)

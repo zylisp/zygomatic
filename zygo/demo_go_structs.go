@@ -135,7 +135,7 @@ func (env *Zlisp) ImportDemoData() {
 
 }
 
-// constructor
+// DemoNestInnerOuterFunction: constructor
 func DemoNestInnerOuterFunction(env *Zlisp, name string, args []Sexp) (Sexp, error) {
 
 	n := len(args)

@@ -31,7 +31,7 @@ func NewZlispConfig(cmdname string) *ZlispConfig {
 	}
 }
 
-// call DefineFlags before myflags.Parse()
+// DefineFlags: call DefineFlags before myflags.Parse()
 func (c *ZlispConfig) DefineFlags() {
 	c.Flags.StringVar(&c.CpuProfile, "cpuprofile", "", "write cpu profile to file")
 	c.Flags.StringVar(&c.MemProfile, "memprofile", "", "write mem profile to file")
@@ -45,7 +45,7 @@ func (c *ZlispConfig) DefineFlags() {
 	c.Flags.BoolVar(&c.LoadDemoStructs, "demo", false, "load the demo structs: Event, Snoopy, Hornet, Weather and friends.")
 }
 
-// call c.ValidateConfig() after myflags.Parse()
+// ValidateConfig: call c.ValidateConfig() after myflags.Parse()
 func (c *ZlispConfig) ValidateConfig() error {
 	if c.Prompt == "" {
 		c.Prompt = "zygo> "

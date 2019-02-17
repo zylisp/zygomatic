@@ -35,7 +35,7 @@ type Prompter struct {
 	rawMode  liner.ModeApplier
 }
 
-// complete phrases that start with '('
+// MyWordCompleter: complete phrases that start with '('
 func MyWordCompleter(line string, pos int) (head string, c []string, tail string) {
 
 	beg := []rune(line[:pos])

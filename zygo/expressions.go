@@ -628,7 +628,7 @@ func (sf *SexpFunction) ClosingLookupSymbol(sym *SexpSymbol, setVal *Sexp) (Sexp
 	return SexpNull, SymNotFound, nil
 }
 
-// chase parent pointers up the chain and check each of their immediate closures.
+// LookupSymbolInParentChainOfClosures: chase parent pointers up the chain and check each of their immediate closures.
 func (sf *SexpFunction) LookupSymbolInParentChainOfClosures(sym *SexpSymbol, setVal *Sexp, env *Zlisp) (Sexp, error, *Scope) {
 
 	cur := sf

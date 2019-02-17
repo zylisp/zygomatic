@@ -52,7 +52,7 @@ type Zlisp struct {
 	WrapLoadExpressionsInInfix bool
 }
 
-// allow clients to establish a callback to
+// SetBooter: allow clients to establish a callback to
 // happen after reinflating a Go struct. These
 // structs need to be "booted" to be ready to go.
 func (env *Zlisp) SetBooter(b Booter) {
@@ -466,7 +466,7 @@ func (env *Zlisp) EvalString(str string) (Sexp, error) {
 	return env.Run()
 }
 
-// for most things now (except the main repl), prefer EvalFunction() instead of EvalExpressions.
+// EvalExpressions: for most things now (except the main repl), prefer EvalFunction() instead of EvalExpressions.
 func (env *Zlisp) EvalExpressions(xs []Sexp) (Sexp, error) {
 	//P("inside EvalExpressions with env %p: xs[0] = %s", env, xs[0].SexpString(0))
 	err := env.LoadExpressions(xs)
@@ -532,7 +532,7 @@ func (env *Zlisp) DumpFunctionByName(name string) error {
 	return nil
 }
 
-// if pc is -1, don't show it.
+// DumpFunction: if pc is -1, don't show it.
 func DumpFunction(fun ZlispFunction, pc int) {
 	blank := "      "
 	extra := blank
@@ -661,7 +661,7 @@ func (env *Zlisp) AddPostHook(fun PostHook) {
 	env.after = append(env.after, fun)
 }
 
-// scan the instruction stream to locate loop start
+// FindLoop: scan the instruction stream to locate loop start
 func (env *Zlisp) FindLoop(target *Loop) (int, error) {
 	if env.curfunc.user {
 		panic(fmt.Errorf("impossible in user-defined-function to find a loop '%s'", target.stmtname.name))

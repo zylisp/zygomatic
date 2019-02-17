@@ -4,7 +4,7 @@ import (
 	"reflect"
 )
 
-// true if target is type *T where T
+// IsExactlySinglePointer: true if target is type *T where T
 // is a struct/string/int/other-non-pointer type.
 func IsExactlySinglePointer(target interface{}) bool {
 	//	va, isVa := target.(reflect.Value)
@@ -27,7 +27,7 @@ func IsExactlySinglePointerType(typ reflect.Type) bool {
 	return true
 }
 
-// true if target is of type **T where T is
+// IsExactlyDoublePointer: true if target is of type **T where T is
 // a struct/string/int/other-non-pointer type.
 func IsExactlyDoublePointer(target interface{}) bool {
 	typ := reflect.ValueOf(target).Type()

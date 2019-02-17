@@ -614,7 +614,7 @@ func GoFieldListFunction(env *Zlisp, name string, args []Sexp) (Sexp, error) {
 	return &h.GoFieldSx, nil
 }
 
-// works over hashes and arrays
+// GenericHpairFunction: works over hashes and arrays
 func GenericHpairFunction(env *Zlisp, name string, args []Sexp) (Sexp, error) {
 	if len(args) != 2 {
 		return SexpNull, WrongNargs

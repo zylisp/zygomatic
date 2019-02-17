@@ -9,7 +9,7 @@ import (
 
 // package.go: declare package, structs, function types
 
-// A builder is a special kind of function. Like
+// ImportPackageBuilder: A builder is a special kind of function. Like
 // a macro it receives the un-evaluated tree
 // of symbols from its caller. A builder
 // can therefore be used to build new types
@@ -86,7 +86,7 @@ func (p *RecordDefn) Type() *RegisteredType {
 	return rt
 }
 
-// pretty print a struct
+// SexpString: pretty print a struct
 func (p *RecordDefn) SexpString(ps *PrintState) string {
 	Q("RecordDefn::SexpString() called!")
 	if len(p.Fields) == 0 {
@@ -148,7 +148,7 @@ func (r SexpField) Type() *RegisteredType {
 	return r.GoStructFactory
 }
 
-// compute key and value widths to assist alignment
+// FieldWidths: compute key and value widths to assist alignment
 func (f *SexpField) FieldWidths() []int {
 	hash := (*SexpHash)(f)
 	wide := []int{}
@@ -622,7 +622,7 @@ func baseConstruct(env *Zlisp, f *RegisteredType, nargs int) (Sexp, error) {
 	//return SexpNull, fmt.Errorf("unhandled no-arg case in baseConstruct, v has type=%T", v)
 }
 
-// generate fixed size array
+// ArrayOfFunction: generate fixed size array
 func ArrayOfFunction(env *Zlisp, name string,
 	args []Sexp) (Sexp, error) {
 

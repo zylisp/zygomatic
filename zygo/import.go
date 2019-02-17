@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-// import a package, analagous to Golang.
+// ImportPackageBuilder: import a package, analagous to Golang.
 func ImportPackageBuilder(env *Zlisp, name string, args []Sexp) (Sexp, error) {
 	//P("starting ImportPackageBuilder")
 	n := len(args)

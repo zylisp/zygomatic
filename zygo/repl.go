@@ -433,7 +433,7 @@ func (env *Zlisp) StandardSetup() {
 	gob.Register(SexpArray{})
 }
 
-// like main() for a standalone repl, now in library
+// ReplMain: like main() for a standalone repl, now in library
 func ReplMain(cfg *ZlispConfig) {
 	var env *Zlisp
 	if cfg.LoadDemoStructs {

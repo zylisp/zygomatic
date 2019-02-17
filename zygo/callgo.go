@@ -8,7 +8,7 @@ import (
 
 // call Go methods
 
-// Using reflection, invoke a Go method on a struct or interface.
+// CallGoMethodFunction: Using reflection, invoke a Go method on a struct or interface.
 // args[0] is a hash with an an attached GoStruct
 // args[1] is a hash representing a method call on that struct.
 // The returned Sexp is a hash that represents the result of that call.
@@ -200,7 +200,7 @@ func CallGoMethodFunction(env *Zlisp, name string, args []Sexp) (Sexp, error) {
 	return sx, err
 }
 
-// detect if inteface is holding anything
+// NilOrHoldsNil: detect if inteface is holding anything
 func NilOrHoldsNil(iface interface{}) bool {
 	if iface == nil {
 		return true

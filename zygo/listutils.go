@@ -61,7 +61,7 @@ func MapList(env *Zlisp, fun *SexpFunction, expr Sexp) (Sexp, error) {
 	return list, nil
 }
 
-// O(n^2) for n total nodes in all lists. So this is
+// ConcatLists: O(n^2) for n total nodes in all lists. So this is
 // not super efficient. We have to
 // find the tail of each list in turn by
 // linear search. Avoid lists if possible in favor

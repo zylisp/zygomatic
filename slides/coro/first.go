@@ -1,6 +1,6 @@
 package zygo
 
-// START OMIT
+// FirstFunction starts OMIT
 // Go: see https://github.com/glycerine/zygomys/blob/master/repl/functions.go
 //
 func FirstFunction(env *Glisp, name string, args []Sexp) (Sexp, error) {

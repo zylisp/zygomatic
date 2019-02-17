@@ -8,7 +8,7 @@ import (
 	"os"
 )
 
-// alternative. simpler, currently panics.
+// SimpleSourceFunction: alternative. simpler, currently panics.
 func SimpleSourceFunction(env *Zlisp, name string, args []Sexp) (Sexp, error) {
 	if len(args) != 1 {
 		return SexpNull, WrongNargs
@@ -44,7 +44,7 @@ func SimpleSourceFunction(env *Zlisp, name string, args []Sexp) (Sexp, error) {
 
 // existing
 
-// SourceExpressions, this should be called from a user func context
+// SourceExpressions: SourceExpressions, this should be called from a user func context
 func (env *Zlisp) SourceExpressions(expressions []Sexp) error {
 	gen := NewGenerator(env)
 

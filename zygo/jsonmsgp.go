@@ -16,8 +16,7 @@ type TypeCheckable interface {
 	TypeCheck() error
 }
 
-/*
- Conversion map
+/* JsonFunction: Conversion map
 
  Go map[string]interface{}  <--(1)--> lisp
    ^                                  ^ |
@@ -78,7 +77,7 @@ func JsonFunction(env *Zlisp, name string, args []Sexp) (Sexp, error) {
 	}
 }
 
-// json -> sexp. env is needed to handle symbols correctly
+// JsonToSexp: json -> sexp. env is needed to handle symbols correctly
 func JsonToSexp(json []byte, env *Zlisp) (Sexp, error) {
 	iface, err := JsonToGo(json)
 	if err != nil {
@@ -87,7 +86,7 @@ func JsonToSexp(json []byte, env *Zlisp) (Sexp, error) {
 	return GoToSexp(iface, env)
 }
 
-// sexp -> json
+// SexpToJson: sexp -> json
 func SexpToJson(exp Sexp) string {
 	switch e := exp.(type) {
 	case *SexpHash:
@@ -182,7 +181,7 @@ func init() {
 	msgpHelper.init()
 }
 
-// translate to sexp -> json -> go -> msgpack
+// SexpToMsgpack: translate to sexp -> json -> go -> msgpack
 // returns both the msgpack []bytes and the go intermediary
 func SexpToMsgpack(exp Sexp) ([]byte, interface{}) {
 
@@ -194,7 +193,7 @@ func SexpToMsgpack(exp Sexp) ([]byte, interface{}) {
 	return by, iface
 }
 
-// json -> go
+// JsonToGo: json -> go
 func JsonToGo(json []byte) (interface{}, error) {
 	var iface interface{}
 
@@ -218,7 +217,7 @@ func GoToMsgpack(iface interface{}) ([]byte, error) {
 	return w.Bytes(), nil
 }
 
-// go -> json
+// GoToJson: go -> json
 func GoToJson(iface interface{}) []byte {
 	var w bytes.Buffer
 	encoder := codec.NewEncoder(&w, &msgpHelper.jh)
@@ -229,7 +228,7 @@ func GoToJson(iface interface{}) []byte {
 	return w.Bytes()
 }
 
-// msgpack -> sexp
+// MsgpackToSexp: msgpack -> sexp
 func MsgpackToSexp(msgp []byte, env *Zlisp) (Sexp, error) {
 	iface, err := MsgpackToGo(msgp)
 	if err != nil {
@@ -242,7 +241,7 @@ func MsgpackToSexp(msgp []byte, env *Zlisp) (Sexp, error) {
 	return sexp, nil
 }
 
-// msgpack -> go
+// MsgpackToGo: msgpack -> go
 func MsgpackToGo(msgp []byte) (interface{}, error) {
 
 	var iface interface{}
@@ -257,7 +256,7 @@ func MsgpackToGo(msgp []byte) (interface{}, error) {
 	return iface, nil
 }
 
-// convert iface, which will typically be map[string]interface{},
+// GoToSexp: convert iface, which will typically be map[string]interface{},
 // into an s-expression
 func GoToSexp(iface interface{}, env *Zlisp) (Sexp, error) {
 	return decodeGoToSexpHelper(iface, 0, env, false), nil
@@ -396,7 +395,7 @@ func makeSortedSlicesFromMap(m map[string]interface{}) ([]string, []interface{})
 	return key, val
 }
 
-// translate an Sexpr to a go value that doesn't
+// SexpToGo: translate an Sexpr to a go value that doesn't
 // depend on any Sexp/Zlisp types. Zlisp maps
 // will get turned into map[string]interface{}.
 // This is mostly just an exercise in type conversion.
@@ -593,7 +592,7 @@ func GoonDumpFunction(env *Zlisp, name string, args []Sexp) (Sexp, error) {
 	return SexpNull, nil
 }
 
-// try to convert to registered go structs if possible,
+// SexpToGoStructs: try to convert to registered go structs if possible,
 // filling in the structure of target (should be a pointer).
 func SexpToGoStructs(
 	sexp Sexp,

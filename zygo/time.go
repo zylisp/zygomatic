@@ -34,7 +34,7 @@ func NowFunction(env *Zlisp, name string,
 	return &SexpTime{Tm: time.Now()}, nil
 }
 
-// string -> time.Time
+// AsTmFunction: string -> time.Time
 func AsTmFunction(env *Zlisp, name string,
 	args []Sexp) (Sexp, error) {
 

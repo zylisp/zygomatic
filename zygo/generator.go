@@ -803,7 +803,7 @@ func (gen *Generator) Reset() {
 
 var ErrBadLoopSyntax = fmt.Errorf("for loop: first argument must be a label or a vector of [init predicate advance]")
 
-// for loops: Just like in C.
+// GenerateForLoop: for loops: Just like in C.
 //
 // (for {optional-label} [init predicate advance] (expr)*)
 //
@@ -1087,7 +1087,7 @@ func isQuotedSymbol(list *SexpPair) (unquotedSymbol Sexp, isQuo bool) {
 	return SexpNull, false
 }
 
-// side-effect (or main effect) has to be pushing an expression on the top of
+// GenerateSyntaxQuote: side-effect (or main effect) has to be pushing an expression on the top of
 // the datastack that represents the expanded and substituted expression
 func (gen *Generator) GenerateSyntaxQuote(args []Sexp) error {
 	//Q("GenerateSyntaxQuote() called with args[0]='%#v'", args[0])
@@ -1366,7 +1366,7 @@ scanUpTheLoops:
 	return nil
 }
 
-// like begin, but puts its contents in a new scope
+// GenerateNewScope: like begin, but puts its contents in a new scope
 func (gen *Generator) GenerateNewScope(expressions []Sexp) error {
 	size := len(expressions)
 	oldtail := gen.Tail

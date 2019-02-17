@@ -27,7 +27,7 @@ func RemoveCommentsFilter(x Sexp) bool {
 	}
 }
 
-// detect SexpEnd values and return false on them to filter them out.
+// RemoveEndsFilter: detect SexpEnd values and return false on them to filter them out.
 func RemoveEndsFilter(x Sexp) bool {
 	switch n := x.(type) {
 	case *SexpSentinel:
@@ -38,7 +38,7 @@ func RemoveEndsFilter(x Sexp) bool {
 	return true
 }
 
-// detect SexpComma values and return false on them to filter them out.
+// RemoveCommasFilter: detect SexpComma values and return false on them to filter them out.
 func RemoveCommasFilter(x Sexp) bool {
 	switch x.(type) {
 	case *SexpComma:

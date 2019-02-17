@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-// read new-line delimited text from a file into an array (slurpf "path-to-file")
+// SlurpfileFunction reads new-line delimited text from a file into an array (slurpf "path-to-file")
 func SlurpfileFunction(env *Zlisp, name string, args []Sexp) (Sexp, error) {
 	if len(args) != 1 {
 		return SexpNull, WrongNargs

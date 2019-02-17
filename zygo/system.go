@@ -14,7 +14,7 @@ func init() {
 	SetShellCmd()
 }
 
-// set ShellCmd as used by SystemFunction
+// SetShellCmd: set ShellCmd as used by SystemFunction
 func SetShellCmd() {
 	if runtime.GOOS == "windows" {
 		ShellCmd = os.Getenv("COMSPEC")
@@ -32,7 +32,7 @@ func SetShellCmd() {
 	}
 }
 
-// sys is a builder. shell out, return the combined output.
+// SystemBuilder: sys is a builder. shell out, return the combined output.
 func SystemBuilder(env *Zlisp, name string, args []Sexp) (Sexp, error) {
 	//P("SystemBuilder called with args='%#v'", args)
 	return SystemFunction(env, name, args)
@@ -66,7 +66,7 @@ func SystemFunction(env *Zlisp, name string, args []Sexp) (Sexp, error) {
 	return &SexpStr{S: string(Chomp(out))}, nil
 }
 
-// given strings/lists of strings with possible whitespace
+// FlattenToWordsFunction: given strings/lists of strings with possible whitespace
 // flatten out to a array of SexpStr with no internal whitespace,
 // suitable for passing along to (system) / exec.Command()
 func FlattenToWordsFunction(env *Zlisp, name string, args []Sexp) (Sexp, error) {

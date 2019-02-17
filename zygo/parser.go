@@ -65,7 +65,7 @@ func (p *Parser) Stop() error {
 	return nil
 }
 
-// Starts launches a background goroutine that runs an
+// Start starts launches a background goroutine that runs an
 // infinite parsing loop.
 func (p *Parser) Start() {
 	go func() {
@@ -102,7 +102,7 @@ var ResetRequested = fmt.Errorf("parser reset requested")
 
 var ErrMoreInputNeeded = fmt.Errorf("parser needs more input")
 
-// This function should *return* when it has more input
+// GetMoreInput: should *return* when it has more input
 // for the parser/lexer, which will call it when they get wedged.
 //
 // Listeners on p.ParsedOutput should know the Convention: sending

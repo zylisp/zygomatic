@@ -915,7 +915,7 @@ func MergeFuncMap(funcs ...map[string]ZlispUserFunction) map[string]ZlispUserFun
 	return n
 }
 
-// SandboxSafeFuncs returns all functions that are safe to run in a sandbox
+// SandboxSafeFunctions returns all functions that are safe to run in a sandbox
 func SandboxSafeFunctions() map[string]ZlispUserFunction {
 	return MergeFuncMap(
 		CoreFunctions(),
@@ -1186,7 +1186,7 @@ func ExitFunction(env *Zlisp, name string, args []Sexp) (Sexp, error) {
 	return SexpNull, fmt.Errorf("argument must be int (the exit code)")
 }
 
-// handles arrays or hashes
+// GenericAccessFunction handles arrays or hashes
 func GenericAccessFunction(env *Zlisp, name string, args []Sexp) (Sexp, error) {
 	if len(args) < 1 || len(args) > 3 {
 		return SexpNull, WrongNargs
@@ -1230,7 +1230,7 @@ func StopFunction(env *Zlisp, name string, args []Sexp) (Sexp, error) {
 	return SexpNull, stopErr
 }
 
-// the assignment function, =
+// AssignmentFunction: The assignment function, =
 func AssignmentFunction(env *Zlisp, name string, args []Sexp) (Sexp, error) {
 	Q("\n AssignmentFunction called with name ='%s'. args='%s'\n", name,
 		env.NewSexpArray(args).SexpString(nil))
@@ -1493,7 +1493,7 @@ func GOOSFunction(env *Zlisp, name string, args []Sexp) (Sexp, error) {
 	return &SexpStr{S: runtime.GOOS}, nil
 }
 
-// check is a symbol/string/value is defined
+// DefinedFunction checks is a symbol/string/value is defined
 func DefinedFunction(env *Zlisp, name string, args []Sexp) (Sexp, error) {
 	//P("in DefinedFunction, args = '%#v'", args)
 	narg := len(args)
@@ -1767,7 +1767,7 @@ func GetEnvFunction(env *Zlisp, name string, args []Sexp) (Sexp, error) {
 	return SexpNull, os.Setenv(nm[0], nm[1])
 }
 
-// coerce numbers to uint64
+// AsUint64Function: coerce numbers to uint64
 func AsUint64Function(env *Zlisp, name string, args []Sexp) (Sexp, error) {
 	if len(args) != 1 {
 		return SexpNull, WrongNargs

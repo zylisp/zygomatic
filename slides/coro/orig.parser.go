@@ -102,7 +102,7 @@ func (p *Parser) Stop() error {
 	return nil
 }
 
-// Start() commences the background parse loop goroutine.
+// Start starts commences the background parse loop goroutine.
 func (p *Parser) Start() {
 	go p.infiniteParsingLoop()
 }

@@ -10,7 +10,7 @@ func (env *Zlisp) ImportMsgpackMap() {
 	env.AddFunction("declare-msgpack-map", DeclareMsgpackMapFunction)
 }
 
-// declare a new record type
+// MsgpackMapMacro declares a new record type
 func MsgpackMapMacro(env *Zlisp, name string,
 	args []Sexp) (Sexp, error) {
 

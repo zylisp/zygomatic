@@ -64,7 +64,7 @@ func (env *Zlisp) InfixF(op string, bp int, f func(env *Zlisp, op string, bp int
 	return f(env, op, bp)
 }
 
-// Infix creates a new (right-associative) short-circuiting
+// Infixr: Infix creates a new (right-associative) short-circuiting
 // infix operator, used for `and` and `or` in infix processing.
 func (env *Zlisp) Infixr(op string, bp int) *InfixOp {
 	oper := env.MakeSymbol(op)

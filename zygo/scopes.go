@@ -44,7 +44,7 @@ func (s *Scope) SexpString(ps *PrintState) string {
 	return head + " " + str + " )"
 }
 
-// Type() satisfies the Sexp interface, returning the type of the value.
+// Type: Type satisfies the Sexp interface, returning the type of the value.
 func (s *Scope) Type() *RegisteredType {
 	return GoStructRegistry.Lookup("packageScope")
 }
@@ -132,7 +132,7 @@ func (stack *Stack) LookupSymbolNonGlobal(sym *SexpSymbol) (Sexp, error, *Scope)
 
 var SymNotFound = errors.New("symbol not found")
 
-// lookup symbols, but don't go beyond a function boundary -- a user-defined
+// LookupSymbolUntilFunction: lookup symbols, but don't go beyond a function boundary -- a user-defined
 // function boundary that is. We certainly have to go up beyond
 // all built-in operators like '+' and '-', '*' and '/'.
 func (stack *Stack) LookupSymbolUntilFunction(sym *SexpSymbol, setVal *Sexp, maximumFuncToSearch int, checkCaptures bool) (Sexp, error, *Scope) {
@@ -261,7 +261,7 @@ func (stack *Stack) DeleteSymbolFromTopOfStackScope(sym *SexpSymbol) error {
 	return nil
 }
 
-// used to implement (set v 10)
+// UpdateSymbolInScope: used to implement (set v 10)
 func (scope *Scope) UpdateSymbolInScope(sym *SexpSymbol, expr Sexp) error {
 
 	_, found := scope.Map[sym.number]
