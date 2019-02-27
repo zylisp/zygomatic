@@ -6,8 +6,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/glycerine/zygomys/zygo"
 	"os"
+
+	"github.com/zylisp/zygo"
 )
 
 func usage(myflags *flag.FlagSet) {

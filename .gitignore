@@ -1,6 +1,6 @@
 *.prof
 *.mprof
 *~
-tests/lines2
-
-
+/bin
+/pkg
+/tests/lines2

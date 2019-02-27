@@ -66,6 +66,17 @@ and some (notably the for-loop style) directly from the Go/C tradition.
 $ go get github.com/zylisp/zylisp/cmd/zylisp
 ```
 
+### Development
+
+```bash
+$ git clone git@github.com:zylisp/zylisp.git
+$ cd zylisp
+$ export GOPATH=$GOPATH:`pwd`
+$ export PATH=$PATH:`pwd`/bin
+$ make
+```
+
+
 ### Features in Zylisp 5.1.1
 
 Not your average parentheses...
