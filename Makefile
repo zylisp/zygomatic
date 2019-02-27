@@ -1,4 +1,4 @@
-VERSION_SRC=src/github.com/zylisp/zygo/gitcommit.go
+VERSION_SRC=src/github.com/zylisp/zylisp/gitcommit.go
 
 .PHONY: build test all
 
@@ -20,20 +20,20 @@ test-deps:
 	go get github.com/glycerine/goconvey/convey
 
 build: deps
-	/bin/echo "package zygo" > $(VERSION_SRC)
+	/bin/echo "package zylisp" > $(VERSION_SRC)
 	/bin/echo "func init() { GITLASTTAG = \"$(shell git describe --abbrev=0 --tags)\"; \
 	GITLASTCOMMIT = \"$(shell git rev-parse --short HEAD)\" }" >> $(VERSION_SRC)
-	go install github.com/zylisp/zygo/cmd/zygo
+	go install github.com/zylisp/zylisp/cmd/zylisp
 
 lint: lint-deps
 	golangci-lint run
 
 vet:
-	go vet github.com/zylisp/zygo
+	go vet github.com/zylisp/zylisp
 
 test: test-deps
 	tests/testall.sh && \
 	echo "running 'go test'" && \
-	cd src/github.com/zylisp/zygo && \
+	cd src/github.com/zylisp/zylisp && \
 	go test -v
 

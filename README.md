@@ -6,7 +6,7 @@
 
 [![Build Status][travis-badge]][travis]
 [![Tag][tag-badge]][tag]
-[![Go version][go-v]](project.clj)
+[![Go version][go-v]](.travis.yml)
 
 Quick examples...
 
