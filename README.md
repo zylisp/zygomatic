@@ -8,9 +8,10 @@
 [![Tag][tag-badge]][tag]
 [![Go version][go-v]](.travis.yml)
 
+
 Quick examples...
 
-Note that parenthesis always mean a function call or native lisp form, and
+Note that parenthesis always mean a function call or native Lisp form, and
 function calls always use outer-parentheses.
 
 Traditional lisp style:
@@ -28,7 +29,10 @@ zylisp> (factTc 11 1) // compute factorial of 11, aka 11! aka 11*10*9*8*7*6*5*4*
 zylisp>
 ```
 
-An optional infix syntax is layered on top. The infix syntax is a subset of Go. Anything inside curly braces is infix. Outer parenthesis are still always used for function calls. The zylisp REPL is in infix mode by default to facilitate math.
+An optional infix syntax is layered on top. The infix syntax is a subset of
+Go. Anything inside curly braces is infix. Outer parenthesis are still always
+used for function calls. The zylisp REPL is in infix mode by default to
+facilitate math.
 
 ```lisp
 // show off the infix parser
@@ -37,11 +41,14 @@ we add up
 zylisp>
 ```
 
+
 ### Quickly create a mini-language to drive your project
 
-ZYLISP is an embeddable scripting language. It is a modernized Lisp with an object-oriented flavor, and
-provides an interpreter and REPL (Read-Eval-Print-Loop;
-that is, it comes with a command line interactive interface).
+ZYLISP is an embeddable scripting language. It is a modernized Lisp with an
+object-oriented flavor, and provides an interpreter and REPL
+(Read-Eval-Print-Loop; that is, it comes with a command line interactive
+interface).
+
 
 ## Why Use ZYLISP?
 
@@ -69,6 +76,7 @@ and some (notably the for-loop style) directly from the Go/C tradition.
 ```bash
 $ go get github.com/zylisp/zylisp/cmd/zylisp
 ```
+
 
 ### Development
 
@@ -154,8 +162,8 @@ Two-clause BSD, see LICENSE file.
 
 <!-- Named page links below: /-->
 
-[logo]: media/logo-1-250x.png
-[logo-large]: media/logo-1.png
+[logo]: media/images/logo-1-250x.png
+[logo-large]: media/images/logo-1.png
 [travis]: https://travis-ci.org/zylisp/zylisp
 [travis-badge]: https://travis-ci.org/zylisp/zylisp.png?branch=master
 [tag-badge]: https://img.shields.io/github/tag/zylisp/zylisp.svg
