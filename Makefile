@@ -22,7 +22,7 @@ test-deps:
 build: deps
 	/bin/echo "package zygo" > $(VERSION_SRC)
 	/bin/echo "func init() { GITLASTTAG = \"$(shell git describe --abbrev=0 --tags)\"; \
-	GITLASTCOMMIT = \"$(shell git rev-parse HEAD)\" }" >> $(VERSION_SRC)
+	GITLASTCOMMIT = \"$(shell git rev-parse --short HEAD)\" }" >> $(VERSION_SRC)
 	go install github.com/zylisp/zygo/cmd/zygo
 
 lint: lint-deps

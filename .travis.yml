@@ -2,13 +2,13 @@ language: go
 go:
   - 1.12.x
 git:
-  depth: 1
+  # Needs to include the commit of the latest tag
+  depth: 50
 before_install:
   - mkdir -p $GOPATH/src/github.com/zylisp
 script:
   - export GOPATH=${GOPATH}:${TRAVIS_BUILD_DIR}
   - export PATH=${PATH}:${TRAVIS_BUILD_DIR}/bin
-  - git fetch --depth $(git rev-list  `git rev-list --tags --no-walk --max-count=1`..HEAD --count)
   - make
 notifications:
   email:
