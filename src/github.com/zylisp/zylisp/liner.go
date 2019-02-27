@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/glycerine/liner"
+	"github.com/zylisp/zcore"
 )
 
 // filled at init time based on BuiltinFunctions
@@ -14,11 +15,11 @@ var math_funcs = []string{`* `, `** `, `+ `, `- `, `-> `, `/ `, `< `, `<= `, `==
 
 func init() {
 	// fill in our auto-complete keywords
-	sortme := []*SymtabE{}
-	for f, _ := range AllBuiltinFunctions() {
-		sortme = append(sortme, &SymtabE{Key: f})
+	sortme := []*zcore.SymtabE{}
+	for f, _ := range zcore.AllBuiltinFunctions() {
+		sortme = append(sortme, &zcore.SymtabE{Key: f})
 	}
-	sort.Sort(SymtabSorter(sortme))
+	sort.Sort(zcore.SymtabSorter(sortme))
 	for i := range sortme {
 		completion_keywords = append(completion_keywords, "("+sortme[i].Key)
 	}
@@ -40,8 +41,8 @@ func MyWordCompleter(line string, pos int) (head string, c []string, tail string
 
 	beg := []rune(line[:pos])
 	end := line[pos:]
-	Q("\nline = '%s' pos=%v\n", line, pos)
-	Q("\nbeg = '%v'\nend = '%s'\n", string(beg), end)
+	zcore.Q("\nline = '%s' pos=%v\n", line, pos)
+	zcore.Q("\nbeg = '%v'\nend = '%s'\n", string(beg), end)
 	// find most recent paren in beg
 	n := len(beg)
 	last := n - 1
@@ -49,17 +50,17 @@ func MyWordCompleter(line string, pos int) (head string, c []string, tail string
 	var p int = -1
 outer:
 	for i = last; i >= 0; i-- {
-		Q("\nbeg[i=%v] is '%v'\n", i, string(beg[i]))
+		zcore.Q("\nbeg[i=%v] is '%v'\n", i, string(beg[i]))
 		switch beg[i] {
 		case ' ':
 			break outer
 		case '(':
 			p = i
-			Q("\n found paren at p = %v\n", i)
+			zcore.Q("\n found paren at p = %v\n", i)
 			break outer
 		}
 	}
-	Q("p=%d\n", p)
+	zcore.Q("p=%d\n", p)
 	prefix := string(beg)
 	extendme := ""
 	if p == 0 {
@@ -69,11 +70,11 @@ outer:
 		prefix = string(beg[:p])
 		extendme = string(beg[p:])
 	}
-	Q("prefix = '%s'\nextendme = '%s'\n", prefix, extendme)
+	zcore.Q("prefix = '%s'\nextendme = '%s'\n", prefix, extendme)
 
 	for _, n := range completion_keywords {
 		if strings.HasPrefix(n, strings.ToLower(extendme)) {
-			Q("n='%s' has prefix  = '%s'\n", n, extendme)
+			zcore.Q("n='%s' has prefix  = '%s'\n", n, extendme)
 			c = append(c, n)
 		}
 	}

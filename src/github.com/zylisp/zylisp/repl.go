@@ -3,23 +3,28 @@ package zylisp
 import (
 	"bufio"
 	"bytes"
-	"encoding/gob"
 	"fmt"
 	"io"
 	"os"
 	"runtime/pprof"
 	"strconv"
 	"strings"
+
+	"github.com/zylisp/zcore"
 )
 
 var precounts map[string]int
 var postcounts map[string]int
 
-func CountPreHook(env *Zlisp, name string, args []Sexp) {
+type Zlisp struct {
+	*zcore.Zlisp
+}
+
+func CountPreHook(env *zcore.Zlisp, name string, args []zcore.Sexp) {
 	precounts[name] += 1
 }
 
-func CountPostHook(env *Zlisp, name string, retval Sexp) {
+func CountPostHook(env *zcore.Zlisp, name string, retval zcore.Sexp) {
 	postcounts[name] += 1
 }
 
@@ -80,7 +85,7 @@ func (pr *Prompter) getExpressionOrig(reader *bufio.Reader) (readin string, err 
 }
 
 // liner reads Stdin only. If noLiner, then we read from reader.
-func (pr *Prompter) getExpressionWithLiner(env *Zlisp, reader *bufio.Reader, noLiner bool) (readin string, xs []Sexp, err error) {
+func (pr *Prompter) getExpressionWithLiner(env *zcore.Zlisp, reader *bufio.Reader, noLiner bool) (readin string, xs []zcore.Sexp, err error) {
 
 	var line, nextline string
 
@@ -94,19 +99,19 @@ func (pr *Prompter) getExpressionWithLiner(env *Zlisp, reader *bufio.Reader, noL
 		return "", nil, err
 	}
 
-	err = UnexpectedEnd
-	var x []Sexp
+	err = zcore.UnexpectedEnd
+	var x []zcore.Sexp
 
 	// test parse, but don't load or generate bytecode
-	env.parser.ResetAddNewInput(bytes.NewBuffer([]byte(line + "\n")))
-	x, err = env.parser.ParseTokens()
+	env.Parser.ResetAddNewInput(bytes.NewBuffer([]byte(line + "\n")))
+	x, err = env.Parser.ParseTokens()
 	//P("\n after ResetAddNewInput, err = %v. x = '%s'\n", err, SexpArray(x).SexpString())
 
 	if len(x) > 0 {
 		xs = append(xs, x...)
 	}
 
-	for err == ErrMoreInputNeeded || err == UnexpectedEnd || err == ResetRequested {
+	for err == zcore.ErrMoreInputNeeded || err == zcore.UnexpectedEnd || err == zcore.ResetRequested {
 		if noLiner {
 			fmt.Printf(continuationPrompt)
 			nextline, err = getLine(reader)
@@ -116,12 +121,12 @@ func (pr *Prompter) getExpressionWithLiner(env *Zlisp, reader *bufio.Reader, noL
 		if err != nil {
 			return "", nil, err
 		}
-		env.parser.NewInput(bytes.NewBuffer([]byte(nextline + "\n")))
-		x, err = env.parser.ParseTokens()
+		env.Parser.NewInput(bytes.NewBuffer([]byte(nextline + "\n")))
+		x, err = env.Parser.ParseTokens()
 		if len(x) > 0 {
 			for i := range x {
-				if x[i] == SexpEnd {
-					P("found an SexpEnd token, omitting it")
+				if x[i] == zcore.SexpEnd {
+					zcore.P("found an SexpEnd token, omitting it")
 					continue
 				}
 				xs = append(xs, x[i])
@@ -130,20 +135,20 @@ func (pr *Prompter) getExpressionWithLiner(env *Zlisp, reader *bufio.Reader, noL
 		switch err {
 		case nil:
 			line += "\n" + nextline
-			Q("no problem parsing line '%s' into '%s', proceeding...\n", line, (&SexpArray{Val: x, Env: env}).SexpString(nil))
+			zcore.Q("no problem parsing line '%s' into '%s', proceeding...\n", line, (&zcore.SexpArray{Val: x, Env: env}).SexpString(nil))
 			return line, xs, nil
-		case ResetRequested:
+		case zcore.ResetRequested:
 			continue
-		case ErrMoreInputNeeded:
+		case zcore.ErrMoreInputNeeded:
 			continue
 		default:
-			return "", nil, fmt.Errorf("Error on line %d: %v\n", env.parser.lexer.Linenum(), err)
+			return "", nil, fmt.Errorf("Error on line %d: %v\n", env.Parser.Lexer.Linenum(), err)
 		}
 	}
 	return line, xs, nil
 }
 
-func processDumpCommand(env *Zlisp, args []string) {
+func processDumpCommand(env *zcore.Zlisp, args []string) {
 	if len(args) == 0 {
 		env.DumpEnvironment()
 	} else {
@@ -154,7 +159,7 @@ func processDumpCommand(env *Zlisp, args []string) {
 	}
 }
 
-func Repl(env *Zlisp, cfg *ZlispConfig) {
+func Repl(env *zcore.Zlisp, cfg *zcore.ZlispConfig) {
 	var reader *bufio.Reader
 	if cfg.NoLiner {
 		// reader is used if one wishes to drop the liner library.
@@ -164,16 +169,17 @@ func Repl(env *Zlisp, cfg *ZlispConfig) {
 
 	if cfg.Trace {
 		// debug tracing
-		env.debugExec = true
+		env.DebugExec = true
 	}
 
 	if !cfg.Quiet {
+		fmt.Println(ReplBanner)
 		if cfg.Sandboxed {
-			fmt.Printf("zylisp [sandbox mode] version %s\n", Version())
+			fmt.Printf("Version %s, sandbox mode\n", Version())
 		} else {
-			fmt.Printf("zylisp version %s\n", Version())
+			fmt.Printf("Version %s\n", Version())
 		}
-		fmt.Printf("press tab (repeatedly) to get completion suggestions. Shift-tab goes back. Ctrl-d to exit.\n")
+		fmt.Println(ReplHelp)
 	}
 	var pr *Prompter // can be nil if noLiner
 	if !cfg.NoLiner {
@@ -186,11 +192,13 @@ func Repl(env *Zlisp, cfg *ZlispConfig) {
 
 	for {
 		line, exprsInput, err := pr.getExpressionWithLiner(env, reader, cfg.NoLiner)
-		//Q("\n exprsInput(len=%d) = '%v'\n line = '%s'\n", len(exprsInput), (&SexpArray{Val: exprsInput}).SexpString(nil), line)
+		//zcore.Q("\n exprsInput(len=%d) = '%v'\n line = '%s'\n", len(exprsInput), (&SexpArray{Val: exprsInput}).SexpString(nil), line)
 		if err != nil {
-			fmt.Println(err)
 			if err == io.EOF {
+				fmt.Println(ReplExitMsg)
 				os.Exit(0)
+			} else {
+				fmt.Println(err)
 			}
 			env.Clear()
 			continue
@@ -229,13 +237,13 @@ func Repl(env *Zlisp, cfg *ZlispConfig) {
 		// allow & at the repl to take the address of an expression
 		if len(first) > 0 && first[0] == '&' {
 			//P("saw & at repl, first='%v', parts='%#v'. exprsInput = '%#v'", first, parts, exprsInput)
-			exprsInput = []Sexp{MakeList(exprsInput)}
+			exprsInput = []zcore.Sexp{zcore.MakeList(exprsInput)}
 		}
 
 		// allow * at the repl to dereference a pointer and print
 		if len(first) > 0 && first[0] == '*' {
 			//P("saw * at repl, first='%v', parts='%#v'. exprsInput = '%#v'", first, parts, exprsInput)
-			exprsInput = []Sexp{MakeList(exprsInput)}
+			exprsInput = []zcore.Sexp{zcore.MakeList(exprsInput)}
 		}
 
 		if first == ".dump" {
@@ -245,10 +253,10 @@ func Repl(env *Zlisp, cfg *ZlispConfig) {
 
 		if first == ".gls" {
 			fmt.Printf("\nScopes:\n")
-			prev := env.showGlobalScope
-			env.showGlobalScope = true
+			prev := env.ShowGlobalScope
+			env.ShowGlobalScope = true
 			err = env.ShowStackStackAndScopeStack()
-			env.showGlobalScope = prev
+			env.ShowGlobalScope = prev
 			if err != nil {
 				fmt.Printf("%s\n", err)
 			}
@@ -264,35 +272,35 @@ func Repl(env *Zlisp, cfg *ZlispConfig) {
 		}
 
 		if first == ".verb" {
-			Verbose = !Verbose
-			fmt.Printf("verbose: %v.\n", Verbose)
+			zcore.Verbose = !zcore.Verbose
+			fmt.Printf("verbose: %v.\n", zcore.Verbose)
 			continue
 		}
 
 		if first == ".debug" {
-			env.debugExec = true
+			env.DebugExec = true
 			fmt.Printf("instruction debugging on.\n")
 			continue
 		}
 
 		if first == ".undebug" {
-			env.debugExec = false
+			env.DebugExec = false
 			fmt.Printf("instruction debugging off.\n")
 			continue
 		}
 
-		var expr Sexp
+		var expr zcore.Sexp
 		n := len(exprsInput)
 		if n > 0 {
-			infixWrappedSexp := MakeList([]Sexp{infixSym, &SexpArray{Val: exprsInput, Env: env}})
-			expr, err = env.EvalExpressions([]Sexp{infixWrappedSexp})
+			infixWrappedSexp := zcore.MakeList([]zcore.Sexp{infixSym, &zcore.SexpArray{Val: exprsInput, Env: env}})
+			expr, err = env.EvalExpressions([]zcore.Sexp{infixWrappedSexp})
 		} else {
-			line = env.ReplLineInfixWrap(line)
+			line = ReplLineInfixWrap(line)
 			expr, err = env.EvalString(line + " ") // print standalone variables
 		}
 		switch err {
 		case nil:
-		case NoExpressionsFound:
+		case zcore.NoExpressionsFound:
 			env.Clear()
 			continue
 		default:
@@ -301,33 +309,33 @@ func Repl(env *Zlisp, cfg *ZlispConfig) {
 			continue
 		}
 
-		if expr != SexpNull {
+		if expr != zcore.SexpNull {
 			// try to print strings more elegantly!
 			switch e := expr.(type) {
-			case *SexpStr:
-				if e.backtick {
+			case *zcore.SexpStr:
+				if e.Backtick {
 					fmt.Printf("`%s`\n", e.S)
 				} else {
 					fmt.Printf("%s\n", strconv.Quote(e.S))
 				}
 			default:
 				switch sym := expr.(type) {
-				case Selector:
-					Q("repl calling RHS() on Selector")
+				case zcore.Selector:
+					zcore.Q("repl calling RHS() on Selector")
 					rhs, err := sym.RHS(env)
 					if err != nil {
-						Q("repl problem in call to RHS() on SexpSelector: '%v'", err)
+						zcore.Q("repl problem in call to RHS() on SexpSelector: '%v'", err)
 						fmt.Print(env.GetStackTrace(err))
 						env.Clear()
 						continue
 					} else {
-						Q("got back rhs of type %T", rhs)
+						zcore.Q("got back rhs of type %T", rhs)
 						fmt.Println(rhs.SexpString(nil))
 						continue
 					}
-				case *SexpSymbol:
-					if sym.isDot {
-						resolved, err := dotGetSetHelper(env, sym.name, nil)
+				case *zcore.SexpSymbol:
+					if sym.IsDot() {
+						resolved, err := zcore.DotGetSetHelper(env, sym.Name(), nil)
 						if err != nil {
 							fmt.Print(env.GetStackTrace(err))
 							env.Clear()
@@ -343,7 +351,7 @@ func Repl(env *Zlisp, cfg *ZlispConfig) {
 	}
 }
 
-func runScript(env *Zlisp, fname string, cfg *ZlispConfig) {
+func runScript(env *zcore.Zlisp, fname string, cfg *zcore.ZlispConfig) {
 	file, err := os.Open(fname)
 	if err != nil {
 		fmt.Println(err)
@@ -380,69 +388,16 @@ func runScript(env *Zlisp, fname string, cfg *ZlispConfig) {
 	}
 }
 
-func (env *Zlisp) StandardSetup() {
-	env.ImportBaseTypes()
-	env.ImportEval()
-	env.ImportTime()
-	env.ImportPackageBuilder()
-	env.ImportMsgpackMap()
-
-	defmap := `(defmac defmap [name] ^(defn ~name [& rest] (msgmap (quote ~name) rest)))`
-	_, err := env.EvalString(defmap)
-	panicOn(err)
-
-	//	colonOp := `(defmac : [key hmap & def] ^(hget ~hmap (quote ~key) ~@def))`
-	//	_, err = env.EvalString(colonOp)
-	//	panicOn(err)
-
-	rangeMacro := `(defmac range [key value myhash & body]
-  ^(let [n (len ~myhash)]
-      (for [(def i 0) (< i n) (def i (+ i 1))]
-        (begin
-          (mdef (quote ~key) (quote ~value) (hpair ~myhash i))
-          ~@body))))`
-	_, err = env.EvalString(rangeMacro)
-	panicOn(err)
-
-	reqMacro := `(defmac req [a] ^(source (sym2str (quote ~a))))`
-	_, err = env.EvalString(reqMacro)
-	panicOn(err)
-
-	incrMacro := `(defmac ++ [a] ^(set ~a (+ ~a 1)))`
-	_, err = env.EvalString(incrMacro)
-	panicOn(err)
-
-	incrEqMacro := `(defmac += [a b] ^(set ~a (+ ~a ~b)))`
-	_, err = env.EvalString(incrEqMacro)
-	panicOn(err)
-
-	decrMacro := `(defmac -- [a] ^(set ~a (- ~a 1)))`
-	_, err = env.EvalString(decrMacro)
-	panicOn(err)
-
-	decrEqMacro := `(defmac -= [a b] ^(set ~a (- ~a ~b)))`
-	_, err = env.EvalString(decrEqMacro)
-	panicOn(err)
-
-	env.ImportChannels()
-	env.ImportGoroutines()
-	env.ImportRegex()
-	env.ImportRandom()
-
-	gob.Register(SexpHash{})
-	gob.Register(SexpArray{})
-}
-
 // ReplMain: like main() for a standalone repl, now in library
-func ReplMain(cfg *ZlispConfig) {
-	var env *Zlisp
+func ReplMain(cfg *zcore.ZlispConfig) {
+	var env *zcore.Zlisp
 	if cfg.LoadDemoStructs {
-		RegisterDemoStructs()
+		zcore.RegisterDemoStructs()
 	}
 	if cfg.Sandboxed {
-		env = NewZlispSandbox()
+		env = zcore.NewZlispSandbox()
 	} else {
-		env = NewZlisp()
+		env = zcore.NewZlisp()
 	}
 	env.StandardSetup()
 	if cfg.LoadDemoStructs {
@@ -510,6 +465,6 @@ func ReplMain(cfg *ZlispConfig) {
 	}
 }
 
-func (env *Zlisp) ReplLineInfixWrap(line string) string {
+func ReplLineInfixWrap(line string) string {
 	return "{" + line + "}"
 }

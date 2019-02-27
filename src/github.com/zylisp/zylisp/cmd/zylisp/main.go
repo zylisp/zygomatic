@@ -1,5 +1,5 @@
 /*
-The ZYLISP command line REPL is known as `zylisp`.
+The ZYLISP command line REPL is compiled to `bin/zylisp`.
 */
 package main
 
@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/zylisp/zcore"
 	"github.com/zylisp/zylisp"
 )
 
@@ -18,7 +19,7 @@ func usage(myflags *flag.FlagSet) {
 }
 
 func main() {
-	cfg := zylisp.NewZlispConfig("zylisp")
+	cfg := zcore.NewZlispConfig("zylisp")
 	cfg.DefineFlags()
 	err := cfg.Flags.Parse(os.Args[1:])
 	if err == flag.ErrHelp {
