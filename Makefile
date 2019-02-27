@@ -12,6 +12,10 @@ deps:
 	go get github.com/tinylib/msgp/msgp
 	go get github.com/ugorji/go/codec
 
+lint-deps:
+	curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | \
+	sh -s -- -b ~/go/bin v1.15.0
+
 test-deps:
 	go get github.com/glycerine/goconvey/convey
 
@@ -20,6 +24,9 @@ build: deps
 	/bin/echo "func init() { GITLASTTAG = \"$(shell git describe --abbrev=0 --tags)\"; \
 	GITLASTCOMMIT = \"$(shell git rev-parse HEAD)\" }" >> $(VERSION_SRC)
 	go install github.com/zylisp/zygo/cmd/zygo
+
+lint: lint-deps
+	golangci-lint run
 
 test: test-deps
 	tests/testall.sh && \
