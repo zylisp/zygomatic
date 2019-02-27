@@ -7,8 +7,8 @@ git:
 before_install:
   - mkdir -p $GOPATH/src/github.com/zylisp
 script:
-  - export GOPATH=${GOPATH}:${TRAVIS_BUILD_DIR}
-  - export PATH=${PATH}:${TRAVIS_BUILD_DIR}/bin
+  - export GOPATH=${TRAVIS_BUILD_DIR}:${GOPATH}
+  - export PATH=${TRAVIS_BUILD_DIR}/bin:${PATH}
   - make
 notifications:
   email:

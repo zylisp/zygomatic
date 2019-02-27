@@ -38,8 +38,8 @@ test: test-deps
 	tests/testall.sh && \
 	echo "running 'go test'" && \
 	cd src/github.com/zylisp/zcore && \
-	go test -v && \
-	cd - && \
-	cd src/github.com/zylisp/zylisp && \
 	go test -v
+	# cd - && \
+	# cd src/github.com/zylisp/zylisp && \
+	# go test -v
 
