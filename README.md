@@ -1,4 +1,4 @@
-# Zylisp
+# ZYLISP
 
 [![][logo]][logo-large]
 
@@ -39,13 +39,13 @@ zylisp>
 
 ### Quickly create a mini-language to drive your project
 
-Zylisp is an embeddable scripting language. It is a modernized Lisp with an object-oriented flavor, and
+ZYLISP is an embeddable scripting language. It is a modernized Lisp with an object-oriented flavor, and
 provides an interpreter and REPL (Read-Eval-Print-Loop;
 that is, it comes with a command line interactive interface).
 
-## Why Use Zylisp?
+## Why Use ZYLISP?
 
-Zylisp allows you to create a Domain Specific Language to drive
+ZYLISP allows you to create a Domain Specific Language to drive
 your program with minimal fuss and maximum convenience.
 
 It is written in Go and plays nicely with Go programs
@@ -53,14 +53,14 @@ and Go structs, using reflection to instantiate trees of Go structs
 from the scripted configuration. These data structures are native
 Go, and Go methods will run on them at compiled-Go speed.
 
-Because it speaks JSON and Msgpack fluently, Zylisp is ideally suited for driving
+Because it speaks JSON and Msgpack fluently, ZYLISP is ideally suited for driving
 complex configurations and providing projects with a domain specific
 language customized to your problem domain.
 
 The example snippets in the tests/*.zy provide many examples.
 The full [documentation can be found in the Wiki](https://github.com/zylisp/zylisp/wiki).
-Zylisp blends traditional and new. While the s-expression syntax
-defines a Lisp, Zylisp borrows some syntax from Clojure,
+ZYLISP blends traditional and new. While the s-expression syntax
+defines a Lisp, ZYLISP borrows some syntax from Clojure,
 and some (notably the for-loop style) directly from the Go/C tradition.
 
 
@@ -81,13 +81,13 @@ $ make
 ```
 
 
-### Features in Zylisp 5.1.1
+### Features in ZYLISP 5.1.1
 
 Not your average parentheses...
 
- * [x] package mechanism that supports modularity and isolation of scripts/packages/libraries from each other. [See tests/package.zy for examples.](https://github.com/glycerine/Zylisp/blob/master/tests/package.zy)
+ * [x] package mechanism that supports modularity and isolation of scripts/packages/libraries from each other. [See tests/package.zy for examples.](https://github.com/glycerine/zylisp/blob/master/tests/package.zy)
  * [x] NaN handing that matches typical expectations/Go's answers.
- * [x] struct defintion and type checking. [See `tests/declare.zy` for examples.](https://github.com/glycerine/Zylisp/blob/master/tests/declare.zy)
+ * [x] struct defintion and type checking. [See `tests/declare.zy` for examples.](https://github.com/glycerine/zylisp/blob/master/tests/declare.zy)
  * [x] Readable nested method calls: `(a.b.c.Fly)` calls method `Fly` on object `c` that lives within objects `a` and `b`.
  * [x] Use `zylisp` to configure trees of Go structs, and then run methods on them at natively-compiled speed (since you are calling into Go code).
  * [x] sandbox-able environment; try `zylisp -sandbox` and see the NewGlispSandbox() function.
@@ -109,7 +109,7 @@ Not your average parentheses...
 ### Additional Features
 
  * [x] Go-style comments, both `/*block*/` and `//through end-of-line.`
- * [x] Zylisp is a small Go library, easy to integrate and use/extend.
+ * [x] ZYLISP is a small Go library, easy to integrate and use/extend.
  * [x] Float (float64), Int (int64), Char, String, Symbol, List, Array, and Hash datatypes builtin.
  * [x] Arithmetic (`+`, `-`, `*`, `/`, `mod`, `**`)
  * [x] Shift Operators (`sll`, `srl`, `sra`)
@@ -129,15 +129,19 @@ Not your average parentheses...
  * [x] Channel and goroutine support
  * [x] Full closures with lexical scope.
 
-[See the wiki for lots of details and a full description of the Zylisp language.](https://github.com/glycerine/Zylisp/wiki).
+[See the wiki for lots of details and a full description of the ZYLISP language.](https://github.com/zylisp/zylisp/wiki).
 
 
 ### The Name
 
-Zylisp is a contraction of Zygomys Lisp (the project from which it was forked); Zygomys is in turn is a contraction of Zygogeomys, [a genus of pocket gophers. The Michoacan pocket gopher (Zygogeomys trichopus) finds its natural habitat in high-altitude forests.](https://en.wikipedia.org/wiki/Michoacan_pocket_gopher)
+ZYLISP is a contraction of Zygomys Lisp (the project from which it was forked); Zygomys is in turn is a contraction of Zygogeomys, [a genus of pocket gophers. The Michoacan pocket gopher (Zygogeomys trichopus) finds its natural habitat in high-altitude forests.](https://en.wikipedia.org/wiki/Michoacan_pocket_gopher)
 
 
 ### License
+
+Copyright (c) 2016-2018, The zygomys authors.
+
+Copyright (c) 2019, The ZYLISP authors.
 
 Two-clause BSD, see LICENSE file.
 
@@ -145,7 +149,7 @@ Two-clause BSD, see LICENSE file.
 
 * Glisp - Howard Mao
 * Zygomys - Jason E. Aten, Ph.D.
-* Zylisp - Duncan McGreggor
+* ZYLISP - Duncan McGreggor
 
 
 <!-- Named page links below: /-->
