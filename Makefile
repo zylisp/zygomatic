@@ -28,8 +28,12 @@ build: deps
 lint: lint-deps
 	golangci-lint run
 
+vet:
+	go vet github.com/zylisp/zygo
+
 test: test-deps
 	tests/testall.sh && \
 	echo "running 'go test'" && \
 	cd src/github.com/zylisp/zygo && \
 	go test -v
+
