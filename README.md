@@ -4,6 +4,10 @@
 
 *a Go Lisp*
 
+[![Build Status][travis-badge]][travis]
+[![Tag][tag-badge]][tag]
+[![Go version][go-v]](project.clj)
+
 Quick examples...
 
 Note that parenthesis always mean a function call or native lisp form, and
@@ -148,3 +152,8 @@ Two-clause BSD, see LICENSE file.
 
 [logo]: media/logo-1-250x.png
 [logo-large]: media/logo-1.png
+[travis]: https://travis-ci.org/zylisp/zylisp
+[travis-badge]: https://travis-ci.org/zylisp/zylisp.png?branch=master
+[tag-badge]: https://img.shields.io/github/tag/zylisp/zylisp.svg
+[tag]: https://github.com/zylisp/zylisp/tags
+[go-v]: https://img.shields.io/badge/Go-1.12-blue.svg
