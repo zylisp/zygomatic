@@ -1,15 +1,17 @@
 # ZYLISP
 
-[![][logo]][logo-large]
+*A Go Lisp*
 
-*a Go Lisp*
+[![][logo]][logo-large]
 
 [![Build Status][travis-badge]][travis]
 [![Tag][tag-badge]][tag]
 [![Go version][go-v]](.travis.yml)
 
 
-Quick examples...
+## Intro
+
+First, some quick examples...
 
 Note that parenthesis always mean a function call or native Lisp form, and
 function calls always use outer-parentheses.
@@ -42,7 +44,12 @@ zylisp>
 ```
 
 
-### Quickly create a mini-language to drive your project
+## Motivation
+
+
+### An Embeddable Scripting Language
+
+*Quickly create a mini-language to drive your project*
 
 ZYLISP is an embeddable scripting language. It is a modernized Lisp with an
 object-oriented flavor, and provides an interpreter and REPL
@@ -50,7 +57,7 @@ object-oriented flavor, and provides an interpreter and REPL
 interface).
 
 
-## Why Use ZYLISP?
+### DSLs
 
 ZYLISP allows you to create a Domain Specific Language to drive
 your program with minimal fuss and maximum convenience.
@@ -71,14 +78,14 @@ defines a Lisp, ZYLISP borrows some syntax from Clojure,
 and some (notably the for-loop style) directly from the Go/C tradition.
 
 
-### Installation
+## Installation
 
 ```bash
 $ go get github.com/zylisp/zylisp/cmd/zylisp
 ```
 
 
-### Development
+## Development
 
 ```bash
 $ git clone git@github.com:zylisp/zylisp.git
@@ -89,7 +96,14 @@ $ make
 ```
 
 
-### Features in ZYLISP 5.1.1
+## Changes in ZYLISP 6.0.0
+
+* Project rename
+* Code split into separate packages
+* Function registration cleanup
+
+
+## Features in ZYLISP 5.1.1
 
 Not your average parentheses...
 
@@ -114,7 +128,7 @@ Not your average parentheses...
  * [x] optional infix notation within `{}` curly braces. Expressions typed at the REPL are assumed to be infix (wrapped in {} implicitly), enhancing the REPL experience for dealing with math.
 
 
-### Additional Features
+## Additional Features
 
  * [x] Go-style comments, both `/*block*/` and `//through end-of-line.`
  * [x] ZYLISP is a small Go library, easy to integrate and use/extend.
@@ -140,12 +154,12 @@ Not your average parentheses...
 [See the wiki for lots of details and a full description of the ZYLISP language.](https://github.com/zylisp/zylisp/wiki).
 
 
-### The Name
+## The Name
 
 ZYLISP is a contraction of Zygomys Lisp (the project from which it was forked); Zygomys is in turn is a contraction of Zygogeomys, [a genus of pocket gophers. The Michoacan pocket gopher (Zygogeomys trichopus) finds its natural habitat in high-altitude forests.](https://en.wikipedia.org/wiki/Michoacan_pocket_gopher)
 
 
-### License
+## License
 
 Copyright (c) 2016-2018, The zygomys authors.
 
@@ -153,7 +167,7 @@ Copyright (c) 2019, The ZYLISP authors.
 
 Two-clause BSD, see LICENSE file.
 
-### Authors
+## Authors
 
 * Glisp - Howard Mao
 * Zygomys - Jason E. Aten, Ph.D.
