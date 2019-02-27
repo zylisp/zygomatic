@@ -1,9 +1,9 @@
 //(defmap snoopy)
 (def s (snoopy))
-(assert (== 
-         ["EchoWeather func(*zygo.Snoopy, *zygo.Weather) *zygo.Weather" "Fly func(*zygo.Snoopy, *zygo.Weather) (string, error)" "GetCry func(*zygo.Snoopy) string" "Sideeffect func(*zygo.Snoopy)"]
+(assert (==
+         ["EchoWeather func(*zcore.Snoopy, *zcore.Weather) *zcore.Weather" "Fly func(*zcore.Snoopy, *zcore.Weather) (string, error)" "GetCry func(*zcore.Snoopy) string" "Sideeffect func(*zcore.Snoopy)"]
          (methodls s)))
 
 (def f (fieldls s))
-(assert (== f ["Plane zygo.Plane" "Wings zygo.Wings embed-path<Plane>" "SpanCm int embed-path<Plane:Wings>" "ID int embed-path<Plane>" "Speed int embed-path<Plane>" "Chld zygo.Flyer embed-path<Plane>" "Friends []zygo.Flyer embed-path<Plane>" "Cry string" "Pack []int" "Carrying []zygo.Flyer"]))
+(assert (== f ["Plane zcore.Plane" "Wings zcore.Wings embed-path<Plane>" "SpanCm int embed-path<Plane:Wings>" "ID int embed-path<Plane>" "Speed int embed-path<Plane>" "Chld zcore.Flyer embed-path<Plane>" "Friends []zcore.Flyer embed-path<Plane>" "Cry string" "Pack []int" "Carrying []zcore.Flyer"]))
 

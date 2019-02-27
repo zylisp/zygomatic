@@ -41,7 +41,7 @@ ptr2
 // set a struct through a pointer
 (struct Dog [
         (field Name:          string     e:0)
-        (field Number:          int64     e:1)
+        (field Number:        int64      e:1)
         ])
 (def d (Dog Name:"Rover"))
 
@@ -84,7 +84,7 @@ ptr2
 (assert (== (* (* h.a)) 45))
 
 (def cat (Cat Name:"Claude"))
-(expectError "Error calling 'derefSet': derefSet only operates on pointers (*SexpPointer); we saw *zygo.SexpStr instead"
+(expectError "Error calling 'derefSet': derefSet only operates on pointers (*SexpPointer); we saw *zcore.SexpStr instead"
               (derefSet (:Name cat) "Jupiter"))
 
 (struct Kanga [(field roo: (* Cat))])

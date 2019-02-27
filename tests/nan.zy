@@ -12,7 +12,7 @@
 //	fmt.Printf("nan != nan = '%v'\n", a != b) // true
 //	fmt.Printf("nan == nan = '%v'\n", a == b) // false
 //
-// match in zygo:
+// match in ZYLISP:
 
 (assert (!= a b))
 (assert (== false (== a b)))

@@ -6,7 +6,6 @@
 
 // require: longer version of req, to
 // illustrate a macro. The req macro in contrast is
-// defined in the zygo, so it is always
-// available.
+// defined in ZYLISP, so it is always available.
 (defmac require [sympath]
-    ^(source (sym2str (quote ~sympath))))
+  ^(source (sym2str (quote ~sympath))))
