@@ -23,6 +23,7 @@ test-deps:
 
 build: deps
 	/bin/echo "package zylisp" > $(VERSION_SRC)
+	/bin/echo "" >> $(VERSION_SRC)
 	/bin/echo "func init() { GITLASTTAG = \"$(LAST_TAG)\"; \
 	GITLASTCOMMIT = \"$(LAST_COMMIT)\" }" >> $(VERSION_SRC)
 	go install github.com/zylisp/zylisp/cmd/zylisp
