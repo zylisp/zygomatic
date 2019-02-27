@@ -1,6 +1,8 @@
-![Image of Gopher flying](https://github.com/zylisp/zylisp/blob/master/media/high_altitude_gopher.png)
+# Zylisp
 
-# Zylisp - a Go Lisp
+[![][logo]][logo-large]
+
+*a Go Lisp*
 
 Quick examples...
 
@@ -129,3 +131,9 @@ Two-clause BSD, see LICENSE file.
 * Glisp - Howard Mao
 * Zygomys - Jason E. Aten, Ph.D.
 * Zylisp - Duncan McGreggor
+
+
+<!-- Named page links below: /-->
+
+[logo]: media/logo-1-250x.png
+[logo-large]: media/logo-1.png
