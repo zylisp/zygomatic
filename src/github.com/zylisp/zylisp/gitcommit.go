@@ -1,3 +1,3 @@
 package zylisp
 
-func init() { GITLASTTAG = ""; GITLASTCOMMIT = "958b1a4" }
+func init() { GITLASTTAG = ""; GITLASTCOMMIT = "aeed91d" }

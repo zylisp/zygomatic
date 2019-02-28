@@ -1,7 +1,8 @@
 package zylisp
 
-const ReplBanner string = `
-Welcome to ZYLISP!
+const ReplBanner string = `Okay, 3, 2, 1 - Let's jam!
+
+Welcome to
 
 /^^^^^^^^/^^ /^^      /^^ /^^       /^^ /^^^^^^^^ /^^^^^^^^^
        /^^    /^^    /^^  /^^       /^^ /^^       /^^    /^^
@@ -32,5 +33,5 @@ Press <TAB> repeatedly to get function-completion suggestions;
 
 const ReplExitMsg string =`^D
 
-See you next time, space cowboy ...
+See you space cowboy ...
 `
