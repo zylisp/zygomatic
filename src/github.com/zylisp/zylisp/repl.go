@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"runtime"
 	"runtime/pprof"
 	"strconv"
 	"strings"
@@ -175,10 +176,11 @@ func Repl(env *zcore.Zlisp, cfg *zcore.ZlispConfig) {
 	if !cfg.Quiet {
 		fmt.Println(ReplBanner)
 		if cfg.Sandboxed {
-			fmt.Printf("Version %s, sandbox mode\n", Version())
+			fmt.Printf("ZYLISP version: %s, [sandbox mode]\n", Version())
 		} else {
-			fmt.Printf("Version %s\n", Version())
+			fmt.Printf("ZYLISP version: %s\n", Version())
 		}
+		fmt.Printf("Go version: %s\n", runtime.Version())
 		fmt.Println(ReplHelp)
 	}
 	var pr *Prompter // can be nil if noLiner
