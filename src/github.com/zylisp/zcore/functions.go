@@ -31,55 +31,6 @@ func SandboxSafeFunctions() map[string]ZlispUserFunction {
 	)
 }
 
-func RandomFunctions() map[string]ZlispUserFunction {
-	return map[string]ZlispUserFunction{
-		"random":  RandomFunction,
-	}
-}
-
-func EncodingFunctions() map[string]ZlispUserFunction {
-	return map[string]ZlispUserFunction{
-		"json":      JsonFunction,
-		"unjson":    JsonFunction,
-		"msgpack":   JsonFunction,
-		"unmsgpack": JsonFunction,
-		"gob":       GobEncodeFunction,
-		"msgmap":    ConstructorFunction,
-	}
-}
-
-func ReflectionFunctions() map[string]ZlispUserFunction {
-	return map[string]ZlispUserFunction{
-		"methodls":              GoMethodListFunction,
-		"_method":               CallGoMethodFunction,
-		"registerDemoFunctions": ScriptFacingRegisterDemoStructs,
-	}
-}
-
-func SystemFunctions() map[string]ZlispUserFunction {
-	return map[string]ZlispUserFunction{
-		"source":    SourceFileFunction,
-		"togo":      ToGoFunction,
-		"fromgo":    FromGoFunction,
-		"dump":      GoonDumpFunction,
-		"slurpf":    SlurpfileFunction,
-		"writef":    WriteToFileFunction,
-		"save":      WriteToFileFunction,
-		"bload":     ReadGreenpackFromFileFunction,
-		"bsave":     WriteShadowGreenpackToFileFunction,
-		"greenpack": WriteShadowGreenpackToFileFunction,
-		"owritef":   WriteToFileFunction,
-		"system":    SystemFunction,
-		"exit":      ExitFunction,
-		"_closdump": DumpClosureEnvFunction,
-		"rmsym":     RemoveSymFunction,
-		"typelist":  TypeListFunction,
-		"setenv":    GetEnvFunction,
-		"getenv":    GetEnvFunction,
-		// not done "_call":     CallZMethodOnRecordFunction,
-	}
-}
-
 func HashColonFunction(env *Zlisp, name string, args []Sexp) (Sexp, error) {
 	if len(args) < 2 || len(args) > 3 {
 		return SexpNull, WrongNargs
@@ -556,21 +507,6 @@ func DotGetSetHelper(env *Zlisp, name string, setVal *Sexp) (Sexp, error) {
 	return exp, nil
 }
 
-func RemoveSymFunction(env *Zlisp, name string, args []Sexp) (Sexp, error) {
-	narg := len(args)
-	if narg != 1 {
-		return SexpNull, WrongNargs
-	}
-
-	sym, ok := args[0].(*SexpSymbol)
-	if !ok {
-		return SexpNull, fmt.Errorf("symbol required, but saw %T/%v", args[0], args[0].SexpString(nil))
-	}
-
-	err := env.linearstack.DeleteSymbolFromTopOfStackScope(sym)
-	return SexpNull, err
-}
-
 // DefinedFunction checks is a symbol/string/value is defined
 func DefinedFunction(env *Zlisp, name string, args []Sexp) (Sexp, error) {
 	//P("in DefinedFunction, args = '%#v'", args)
@@ -629,63 +565,4 @@ func (env *Zlisp) SubstituteRHS(args []Sexp) ([]Sexp, error) {
 		}
 	}
 	return args, nil
-}
-
-func ScriptFacingRegisterDemoStructs(env *Zlisp, name string, args []Sexp) (Sexp, error) {
-	RegisterDemoStructs()
-	return SexpNull, nil
-}
-
-func GetEnvFunction(env *Zlisp, name string, args []Sexp) (Sexp, error) {
-	narg := len(args)
-	//fmt.Printf("GetEnv name='%s' called with narg = %v\n", name, narg)
-	if name == "getenv" {
-		if narg != 1 {
-			return SexpNull, WrongNargs
-		}
-	} else {
-		if name != "setenv" {
-			panic("only getenv or setenv allowed here")
-		}
-		if narg != 2 {
-			return SexpNull, WrongNargs
-		}
-	}
-	nm := make([]string, narg)
-	for i := 0; i < narg; i++ {
-		switch x := args[i].(type) {
-		case *SexpSymbol:
-			nm[i] = x.name
-		case *SexpStr:
-			nm[i] = x.S
-		default:
-			return SexpNull, fmt.Errorf("symbol or string required, but saw %T/%v for i=%v arg", args[i], args[i].SexpString(nil), i)
-		}
-	}
-
-	if name == "getenv" {
-		return &SexpStr{S: os.Getenv(nm[0])}, nil
-	}
-
-	//fmt.Printf("calling setenv with nm[0]='%s', nm[1]='%s'\n", nm[0], nm[1])
-	return SexpNull, os.Setenv(nm[0], nm[1])
-}
-
-// AsUint64Function: coerce numbers to uint64
-func AsUint64Function(env *Zlisp, name string, args []Sexp) (Sexp, error) {
-	if len(args) != 1 {
-		return SexpNull, WrongNargs
-	}
-
-	var val uint64
-	switch x := args[0].(type) {
-	case *SexpInt:
-		val = uint64(x.Val)
-	case *SexpFloat:
-		val = uint64(x.Val)
-	default:
-		return SexpNull, fmt.Errorf("Cannot convert %s to uint64", TypeOf(args[0]).SexpString(nil))
-
-	}
-	return &SexpUint64{Val: val}, nil
 }

@@ -993,3 +993,21 @@ func DerefFunction(env *Zlisp, name string, args []Sexp) (result Sexp, err error
 	}
 }
 
+// AsUint64Function: coerce numbers to uint64
+func AsUint64Function(env *Zlisp, name string, args []Sexp) (Sexp, error) {
+	if len(args) != 1 {
+		return SexpNull, WrongNargs
+	}
+
+	var val uint64
+	switch x := args[0].(type) {
+	case *SexpInt:
+		val = uint64(x.Val)
+	case *SexpFloat:
+		val = uint64(x.Val)
+	default:
+		return SexpNull, fmt.Errorf("Cannot convert %s to uint64", TypeOf(args[0]).SexpString(nil))
+
+	}
+	return &SexpUint64{Val: val}, nil
+}

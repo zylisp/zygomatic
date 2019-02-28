@@ -1,7 +1,11 @@
+!/src/github.com/zylisp/*
+!/src/github.com/zylisp/test/*
+!/src/github.com/zylisp/zcore/*
+!/src/github.com/zylisp/zylisp/*
 *.prof
 *.mprof
 *~
 /bin
 /pkg
 /tests/lines2
-/src/github.com
+/src/github.com/*
