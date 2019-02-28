@@ -2,7 +2,6 @@ package zcore
 
 import (
 	"fmt"
-	"os"
 	"reflect"
 	"unicode"
 )
@@ -237,17 +236,6 @@ func Sym2StrFunction(env *Zlisp, name string, args []Sexp) (Sexp, error) {
 		return r, nil
 	}
 	return SexpNull, fmt.Errorf("argument must be symbol")
-}
-
-func ExitFunction(env *Zlisp, name string, args []Sexp) (Sexp, error) {
-	if len(args) != 1 {
-		return SexpNull, WrongNargs
-	}
-	switch e := args[0].(type) {
-	case *SexpInt:
-		os.Exit(int(e.Val))
-	}
-	return SexpNull, fmt.Errorf("argument must be int (the exit code)")
 }
 
 func StopFunction(env *Zlisp, name string, args []Sexp) (Sexp, error) {

@@ -198,3 +198,17 @@ func GetEnvFunction(env *Zlisp, name string, args []Sexp) (Sexp, error) {
 	//fmt.Printf("calling setenv with nm[0]='%s', nm[1]='%s'\n", nm[0], nm[1])
 	return SexpNull, os.Setenv(nm[0], nm[1])
 }
+
+func ExitFunction(env *Zlisp, name string, args []Sexp) (Sexp, error) {
+	if len(args) > 1 {
+		return SexpNull, WrongNargs
+	}
+	if len(args) == 0 {
+		os.Exit(0)
+	}
+	switch e := args[0].(type) {
+	case *SexpInt:
+		os.Exit(int(e.Val))
+	}
+	return SexpNull, fmt.Errorf("argument must be int (the exit code)")
+}

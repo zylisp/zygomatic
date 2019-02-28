@@ -27,8 +27,11 @@ Welcome to
 // `
 
 const ReplHelp string = `
-Press <TAB> repeatedly to get function-completion suggestions;
-<SHIFT><TAB> moves backwards through the suggestions.
+      Docs: https://github.com/zylisp/zylisp/wiki
+   Project: https://github.com/zylisp/zylisp
+  Function  Cycle through <TAB>  to get function-completion suggestions;
+Completion: <SHIFT><TAB> to move backwards through the suggestions
+      Exit: <CONTROL>D or (exit) or (quit)
 `
 
 const ReplExitMsg string =`^D
