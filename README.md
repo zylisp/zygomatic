@@ -84,6 +84,41 @@ and some (notably the for-loop style) directly from the Go/C tradition.
 $ go get github.com/zylisp/zylisp/cmd/zylisp
 ```
 
+## Usage
+
+```
+$ zylisp
+```
+```
+Okay, 3, 2, 1 - Let's jam!
+
+Welcome to
+
+/^^^^^^^^/^^ /^^      /^^ /^^       /^^ /^^^^^^^^ /^^^^^^^^^
+       /^^    /^^    /^^  /^^       /^^ /^^       /^^    /^^
+      /^^      /^^ /^^    /^^       /^^ /^^       /^^    /^^
+    /^^          /^^      /^^       /^^ /^^^^^^^^ /^^^^^^^^^
+   /^^           /^^      /^^       /^^       /^^ /^^
+ /^^             /^^      /^^       /^^ /^^   /^^ /^^
+/^^^^^^^^^^^     /^^      /^^^^^^^^ /^^ /^^^^^^^^ /^^
+
+ZYLISP version: v6.0.0/1e0d7f3
+Go version: go1.12
+
+      Docs: https://github.com/zylisp/zylisp/wiki
+   Project: https://github.com/zylisp/zylisp
+  Function  Cycle through <TAB>  to get function-completion suggestions;
+Completion: <SHIFT><TAB> to move backwards through the suggestions
+      Exit: <CONTROL>D or (exit) or (quit)
+
+zylisp>
+```
+```clj
+zylisp> (* 2 (+ 1 2 3 4 5 6))
+42
+zylisp> (map list ["Hello," "world"])
+[("Hello,") ("world")]
+```
 
 ## Development
 
