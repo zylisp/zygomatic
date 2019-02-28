@@ -102,7 +102,7 @@ Welcome to
  /^^             /^^      /^^       /^^ /^^   /^^ /^^
 /^^^^^^^^^^^     /^^      /^^^^^^^^ /^^ /^^^^^^^^ /^^
 
-ZYLISP version: v6.0.0/1e0d7f3
+ZYLISP version: v6.0.0/0d0fee1
 Go version: go1.12
 
       Docs: https://github.com/zylisp/zylisp/wiki
